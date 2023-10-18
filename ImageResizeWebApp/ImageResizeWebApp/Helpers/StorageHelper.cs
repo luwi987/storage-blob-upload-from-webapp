@@ -1,8 +1,10 @@
-﻿using Azure.Storage;
+using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using ImageResizeWebApp.Models;
 using Microsoft.AspNetCore.Http;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,8 +15,7 @@ namespace ImageResizeWebApp.Helpers
 {
     public static class StorageHelper
     {
-
-        public static bool IsImage(IFormFile file)
+        public static bool IsValidFile(IFormFile file)
         {
             if (file.ContentType.Contains("image"))
             {
@@ -29,6 +30,27 @@ namespace ImageResizeWebApp.Helpers
         public static async Task<bool> UploadFileToStorage(Stream fileStream, string fileName,
                                                             AzureStorageConfig _storageConfig)
         {
+            // Überprüfen, ob es sich um ein Bild handelt
+            if (fileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
+                fileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
+                fileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
+                fileName.EndsWith(".gif", StringComparison.OrdinalIgnoreCase))
+            {
+                // Verwenden Sie ImageSharp, um das Bild zu laden und zu skalieren
+                using var image = Image.Load(fileStream);
+                image.Mutate(x => x.Resize(new ResizeOptions
+                {
+                    Size = new Size(600, 600),
+                    Mode = ResizeMode.Max
+                }));
+
+                // Konvertieren Sie das skalierte Bild zurück in einen Stream
+                var memoryStream = new MemoryStream();
+                image.Save(memoryStream, new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder());
+                memoryStream.Position = 0;
+                fileStream = memoryStream;
+            }
+
             // Create a URI to the blob
             Uri blobUri = new Uri("https://" +
                                   _storageConfig.AccountName +
