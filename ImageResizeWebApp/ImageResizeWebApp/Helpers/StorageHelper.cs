@@ -66,14 +66,8 @@ namespace ImageResizeWebApp.Helpers
             // Create the blob client.
             BlobClient blobClient = new BlobClient(blobUri, storageCredentials);
 
-            // Set the upload options to overwrite if the blob already exists.
-            var uploadOptions = new BlobUploadOptions
-            {
-                Overwrite = true
-            };
-
-            // Upload the file
-            await blobClient.UploadAsync(fileStream, uploadOptions);
+            // Upload the file with overwrite option set to true
+            await blobClient.UploadAsync(fileStream, true);
 
             return await Task.FromResult(true);
         }
