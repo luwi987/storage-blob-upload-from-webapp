@@ -51,7 +51,7 @@ namespace ImageResizeWebApp.Helpers
                 fileStream = memoryStream;
             }
 
-            // Create a URI to the blob
+            // Create a URI to the blob 
             Uri blobUri = new Uri("https://" +
                                   _storageConfig.AccountName +
                                   ".blob.core.windows.net/" +
