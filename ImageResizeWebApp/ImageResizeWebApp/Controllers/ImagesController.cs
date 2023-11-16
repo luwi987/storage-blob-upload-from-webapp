@@ -16,7 +16,7 @@ namespace ImageResizeWebApp.Controllers
         private const string ErrorMessageStorageDetails = "Sorry, can't retrieve your Azure storage details from appsettings.js, make sure that you add Azure storage details there.";
         private const string ErrorMessageImageContainer = "Please provide a name for your image container in Azure blob storage.";
 
-        private readonly AzureStorageConfig storageConfig = null;
+        private readonly AzureStorageConfig storageConfig;
 
         public ImagesController(IOptions<AzureStorageConfig> config)
         {
@@ -38,7 +38,8 @@ namespace ImageResizeWebApp.Controllers
         public async Task<IActionResult> Upload(ICollection<IFormFile> files)
         {
             var configCheck = CheckStorageConfig();
-            if (configCheck != null) return configCheck;
+            if (configCheck != null) 
+                return configCheck;
 
             try
             {
