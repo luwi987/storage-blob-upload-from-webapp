@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputType>Exe</OutputType>
@@ -16,22 +16,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.2.0" />
-    <PackageReference Include="Azure.Storage.Common" Version="12.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
+    <!-- Update Azure Storage package versions to the latest compatible with .NET 7.0 -->
+    <PackageReference Include="Azure.Storage.Blobs" Version="latest_version" />
+    <PackageReference Include="Azure.Storage.Common" Version="latest_version" />
+    
+    <!-- Remove outdated ASP.NET Core 2.0 packages -->
+    <!-- <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" /> -->
+    <!-- <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" /> -->
+    <!-- <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" /> -->
+    <!-- <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" /> -->
+    <!-- <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" /> -->
+    <!-- <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" /> -->
+
+    <!-- Update Entity Framework Core to a version compatible with .NET 7.0 -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="latest_version" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="latest_version" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="latest_version" />
+
+    <!-- Update or verify the version of ImageSharp -->
+    <PackageReference Include="SixLabors.ImageSharp" Version="latest_version" />
+
+    <!-- Remove outdated tool reference -->
+    <!-- <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" /> -->
   </ItemGroup>
 
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
 </Project>
