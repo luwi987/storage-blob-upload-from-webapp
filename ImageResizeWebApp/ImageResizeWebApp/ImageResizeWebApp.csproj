@@ -29,9 +29,9 @@
     <!-- <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" /> -->
 
     <!-- Update Entity Framework Core to a version compatible with .NET 7.0 -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14" />
 
     <!-- Update or verify the version of ImageSharp -->
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
