@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting; // Newly added for .NET 7.0 compatibility
 
 namespace ImageResizeWebApp
 {
@@ -20,12 +21,16 @@ namespace ImageResizeWebApp
         {
             services.AddOptions();
             services.Configure<AzureStorageConfig>(Configuration.GetSection("AzureStorageConfig"));
-            services.AddMvc();
 
+            // Use AddControllersWithViews for MVC apps (controllers + views) in .NET 7.0
+            services.AddControllersWithViews();
+
+            // If you have Razor Pages, add this line:
+            // services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -34,19 +39,27 @@ namespace ImageResizeWebApp
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts(); // Enforce HTTPS in production
             }
 
+            app.UseHttpsRedirection(); // Redirect HTTP requests to HTTPS
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+            app.UseRouting();
 
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                // If using Razor Pages, add this line:
+                // endpoints.MapRazorPages();
+
+                // SPA fallback route if using SPA frameworks
+                endpoints.MapFallbackToController("Index", "Home");
             });
         }
     }
