@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,16 +18,14 @@ namespace ImageResizeWebApp.Helpers
 
         public static bool IsValidFile(IFormFile file)
         {
-            if (file.ContentType.Contains("image"))
-            {
-                return true;
-            }
-
-            return ImageFormats.Any(item => file.FileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
+            // Check if the file is an image based on MIME type and file extension
+            return file.ContentType.Contains("image") || 
+                   ImageFormats.Any(item => file.FileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static async Task<bool> UploadFileToStorage(Stream fileStream, string fileName, AzureStorageConfig _storageConfig)
+        public static async Task<bool> UploadFileToStorage(Stream fileStream, string fileName, AzureStorageConfig storageConfig)
         {
+            // Resize the image if it's an image file
             if (IsImage(fileName))
             {
                 using var image = Image.Load(fileStream);
@@ -43,17 +40,19 @@ namespace ImageResizeWebApp.Helpers
                 fileStream.Position = 0;
             }
 
-            Uri blobUri = new Uri($"https://{_storageConfig.AccountName}.blob.core.windows.net/{_storageConfig.ImageContainer}/{fileName}");
-            StorageSharedKeyCredential storageCredentials = new StorageSharedKeyCredential(_storageConfig.AccountName, _storageConfig.AccountKey);
+            // Construct the Blob URI
+            Uri blobUri = new Uri($"https://{storageConfig.AccountName}.blob.core.windows.net/{storageConfig.ImageContainer}/{fileName}");
+            StorageSharedKeyCredential storageCredentials = new StorageSharedKeyCredential(storageConfig.AccountName, storageConfig.AccountKey);
             BlobClient blobClient = new BlobClient(blobUri, storageCredentials);
 
-            await blobClient.UploadAsync(fileStream, true);
-
+            // Upload the file
+            await blobClient.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = "image/jpeg" }, conditions: null);
             return true;
         }
 
         private static bool IsImage(string fileName)
         {
+            // Check if the file extension is one of the known image formats
             return ImageFormats.Any(item => fileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
         }
     }
