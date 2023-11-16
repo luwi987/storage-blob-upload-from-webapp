@@ -17,8 +17,8 @@
 
   <ItemGroup>
     <!-- Update Azure Storage package versions to the latest compatible with .NET 7.0 -->
-    <PackageReference Include="Azure.Storage.Blobs" Version="latest_version" />
-    <PackageReference Include="Azure.Storage.Common" Version="latest_version" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
+    <PackageReference Include="Azure.Storage.Common" Version="12.18.1" />
     
     <!-- Remove outdated ASP.NET Core 2.0 packages -->
     <!-- <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" /> -->
@@ -29,12 +29,12 @@
     <!-- <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" /> -->
 
     <!-- Update Entity Framework Core to a version compatible with .NET 7.0 -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="latest_version" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="latest_version" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="latest_version" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
 
     <!-- Update or verify the version of ImageSharp -->
-    <PackageReference Include="SixLabors.ImageSharp" Version="latest_version" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
 
     <!-- Remove outdated tool reference -->
     <!-- <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" /> -->
